@@ -153,7 +153,7 @@ GameEngineClass.prototype.cargarNiveles = function(){
 
 GameEngineClass.prototype.nivelSuperado = function(){
 	//alert("Level Cleared");
-	this.nivelActual++;
+	//this.nivelActual++;
 	this.nuevoGUI("SuperadoGUI");
 	this.isGUI=true;
 }

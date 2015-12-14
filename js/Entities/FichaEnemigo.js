@@ -165,7 +165,7 @@ FichaEnemigoEntity.prototype.pintarVida = function() {
     GE.ctx.lineTo((this.pos.x*64)+12, (this.pos.y*64)+(64-(((this.vida/this.vidaMaxima) * (60-18))+18)));
     GE.ctx.stroke();
 
-    
+
     //Pintamos la barra de carga
     var porcentajeCarga = ((this.velocidadAccion*60)-this.siguienteAccion) /(this.velocidadAccion*60);
     if(porcentajeCarga>1){

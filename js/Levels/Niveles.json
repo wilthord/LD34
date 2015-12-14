@@ -3,14 +3,15 @@
 			"entidades":[
 				{"type":"GUIEntityClass","xIni":320,"yIni":300,"sizeX":124,"sizeY":31 , "GUIAction":"iniciarNivel", "spriteName":"Iniciar"},
 				{"type":"GUIEntityClass","xIni":320,"yIni":100,"sizeX":255,"sizeY":160 , "GUIAction":"", "spriteName":"NombreJuego"},
-				{"type":"GUIEntityClass","xIni":320,"yIni":340,"sizeX":190,"sizeY":25 , "GUIAction":"instrucciones", "spriteName":"instruccionesLabel"}
+				{"type":"GUIEntityClass","xIni":320,"yIni":360,"sizeX":190,"sizeY":25 , "GUIAction":"instrucciones", "spriteName":"instruccionesLabel"}
 			]
 		},
 		{"id":"PerdisteGUI", "nombre":"PerdisteGUI",
 			"entidades":[
 				{"type":"GUIEntityClass","xIni":320,"yIni":100,"sizeX":255,"sizeY":160 , "GUIAction":"", "spriteName":"NombreJuego"},
 				{"type":"GUIEntityClass","xIni":320,"yIni":300,"sizeX":80,"sizeY":44 , "GUIAction":"", "spriteName":"GameOver"},
-				{"type":"GUIEntityClass","xIni":320,"yIni":400,"sizeX":71,"sizeY":26 , "GUIAction":"iniciarNivel", "spriteName":"Retry"}
+				{"type":"GUIEntityClass","xIni":320,"yIni":400,"sizeX":71,"sizeY":26 , "GUIAction":"iniciarNivel", "spriteName":"Retry"},
+				{"type":"GUIEntityClass","xIni":320,"yIni":440,"sizeX":190,"sizeY":25 , "GUIAction":"instrucciones", "spriteName":"instruccionesLabel"}
 
 			]
 		},
@@ -18,7 +19,7 @@
 			"entidades":[
 				{"type":"GUIEntityClass","xIni":320,"yIni":100,"sizeX":255,"sizeY":160 , "GUIAction":"", "spriteName":"NombreJuego"},
 				{"type":"GUIEntityClass","xIni":320,"yIni":300,"sizeX":73,"sizeY":19 , "GUIAction":"", "spriteName":"Great"},
-				{"type":"GUIEntityClass","xIni":320,"yIni":400,"sizeX":140,"sizeY":26 , "GUIAction":"iniciarNivel", "spriteName":"Next"}
+				{"type":"GUIEntityClass","xIni":320,"yIni":400,"sizeX":94,"sizeY":26 , "GUIAction":"iniciarNivel", "spriteName":"Restart"}
 
 			]
 		},
