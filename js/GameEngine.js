@@ -13,23 +13,37 @@ GameEngineClass = function(){
 
 	this.canvasObj = {};
 
-	this.canvasSize = {w:500, h:500};
+	this.canvasSize = {w:640, h:512};
 
 	this.entities=[];
 
-	this.pilaresActivos = 0;
+	//0 significa espacio libre, 1 ficha Aliada, -1 Ficha enemiga
+	this.grillaBatalla=[[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0]];
 
-	this.cristalesActivos = 0;
+	//this.celdaSeleccionada = {x:0, y:0};
+	this.entidadSeleccionada = null;
+	//this.isCeldaSeleccionada = false;
 
-	this.personaje={};
+	this.pilaresActivos = 0;//Borrar
+
+	this.cristalesActivos = 0;//Borrar
+
+	this.personaje={};		//Borrar
 
 	this.marcaMouse={};
 
 	this.nombreCanvas='myCanvas';
 
-	this.enemySpawnTime = 600;
+	this.enemySpawnTime = 600;//Borrar
 
-	this.nextEnemySpawn = 0;
+	this.nextEnemySpawn = 0;//Borrar
 
 	this.nivelActual = 1;
 
@@ -160,19 +174,24 @@ GameEngineClass.prototype.nuevoNivel = function(){
     }
 
 	this.entities = [];
-	this.pilaresActivos=0;
-	this.cristalesActivos=0;
-	this.personaje = {};
+	this.grillaBatalla=[[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0]];
 
 	for(var i=0; i<nivelCargar.entidades.length; i++){
 		var entidadNueva = new this.entidadesFactory[nivelCargar.entidades[i].type](nivelCargar.entidades[i]);
-		if(entidadNueva instanceof PilarClass){
-			this.pilaresActivos++;
-		}else if (entidadNueva instanceof CristalClass) {
-			this.cristalesActivos++;
-		}else if (entidadNueva instanceof PlayerClass) {
+		if(entidadNueva instanceof FichaAliadaEntity){
+			this.grillaBatalla[entidadNueva.pos.y][entidadNueva.pos.x]=1;
+		}else if (entidadNueva instanceof FichaEnemigoEntity) {
+			this.grillaBatalla[entidadNueva.pos.y][entidadNueva.pos.x]=-1;
+		}/*else if (entidadNueva instanceof PlayerClass) {
 			this.personaje = entidadNueva;
-		}
+		}*/
 		this.entities.push(entidadNueva);
 	}
 
@@ -205,11 +224,19 @@ GameEngineClass.prototype.tick = function() {
 	stats.begin();
 
 	if(!this.isGUI){
-		if(this.cristalesActivos<1){
+		//Se valida el estado del juego, Ganamos? Perdimos?
+		var totalEnemigos = 0;
+		var totalAliados = 0;
+		GE.entities.forEach(function(entidad) {
+			if(entidad instanceof FichaAliadaEntity){
+				totalAliados++;
+			}else if(entidad instanceof FichaEnemigoEntity){
+				totalEnemigos++;
+			} 
+		});
+		if(totalEnemigos<1){
 			this.nivelSuperado();	
-		}else if(this.personaje && this.personaje!=null && this.personaje instanceof PlayerClass && this.personaje.isDead==false){
-
-		}else{
+		}else if(totalAliados<1){
 			this.nivelPerdido();
 		}
 	}
@@ -223,6 +250,29 @@ GameEngineClass.prototype.tick = function() {
 
 GameEngineClass.prototype.updateGame=function(){
 
+	if(gInputEngine.actions[CLICK] && this.grillaBatalla[Math.floor(gInputEngine.mouse.y/64)][Math.floor(gInputEngine.mouse.x/64)]===1){
+		if(GE.entidadSeleccionada!=null){
+			GE.entidadSeleccionada.isSeleccionada=false;
+			GE.entidadSeleccionada=null;
+		}
+		GE.entities.forEach(function(entidad) {
+			if(entidad instanceof FichaAliadaEntity && entidad.pos.x===Math.floor(gInputEngine.mouse.x/64) && entidad.pos.y===Math.floor(gInputEngine.mouse.y/64)){
+				GE.entidadSeleccionada=entidad;
+				entidad.isSeleccionada=true;
+			}
+		});
+		gInputEngine.actions[CLICK]=false;
+	}else if(gInputEngine.actions[CLICK] && this.grillaBatalla[Math.floor(gInputEngine.mouse.y/64)][Math.floor(gInputEngine.mouse.x/64)]===0 && GE.entidadSeleccionada!==null){
+
+		GE.entidadSeleccionada.mover(Math.floor(gInputEngine.mouse.x/64),Math.floor(gInputEngine.mouse.y/64));
+		GE.entidadSeleccionada.isSeleccionada=false;
+		GE.entidadSeleccionada=null;
+		gInputEngine.actions[CLICK]=false;
+	}else if(gInputEngine.actions[CLICK] && GE.entidadSeleccionada!=null){
+		GE.entidadSeleccionada.isSeleccionada=false;
+		GE.entidadSeleccionada=null;
+		gInputEngine.actions[CLICK]=false;
+	}
 
 	var entidadesEliminar = [];
 	GE.entities.forEach(function(entidad) {
@@ -235,6 +285,7 @@ GameEngineClass.prototype.updateGame=function(){
 	
 	for (var j = 0; j < entidadesEliminar.length; j++) {
 		if(entidadesEliminar[j].physBody) gPhysicsEngine.removeBody(entidadesEliminar[j].physBody);
+		this.grillaBatalla[entidadesEliminar[j].pos.y][entidadesEliminar[j].pos.x]=0;
         this.entities.removeObj(entidadesEliminar[j]);
     }
 
@@ -245,6 +296,7 @@ GameEngineClass.prototype.updateGame=function(){
 }
 
 GameEngineClass.prototype.drawGame=function(){
+	/* Mejorar para que los niveles, tengan escenografia diferente */
 	var pisoSprite = findSprite(pisoSpriteName);
 	for(var i=0;i<this.canvasSize.w; i+=pisoSprite.w){
 		for(var j=0;j<this.canvasSize.h; j+=pisoSprite.h){
@@ -269,6 +321,8 @@ GE.entidadesFactory["GuardianClass"]=GuardianClass;
 GE.entidadesFactory["PlayerClass"]=PlayerClass;
 GE.entidadesFactory["PilarClass"]=PilarClass;
 GE.entidadesFactory["CristalClass"]=CristalClass;
+GE.entidadesFactory["FichaAliada"]=FichaAliadaEntity;
+GE.entidadesFactory["FichaEnemigo"]=FichaEnemigoEntity;
 
 GE.init();
 

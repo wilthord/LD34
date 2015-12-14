@@ -9,7 +9,25 @@
 				{"name":"Piso","x":320,"y":0,"w":64,"h":64 },
 				{"name":"Vision","x":384,"y":0,"w":192,"h":64 },
 				{"name":"MonstruoOculto","x":64,"y":64,"w":64,"h":64 },
-				{"name":"Altar","x":576,"y":0,"w":64,"h":64 }
+				{"name":"Altar","x":576,"y":0,"w":64,"h":64 },
+				{"name":"corto","x":0,"y":0,"w":64,"h":64 },
+				{"name":"largo","x":64,"y":0,"w":64,"h":64 },
+				{"name":"muro","x":128,"y":0,"w":64,"h":64 },
+				{"name":"fusion","x":192,"y":0,"w":64,"h":64 },
+				{"name":"invocador","x":256,"y":0,"w":64,"h":64 },
+				{"name":"Seleccionado","x":64,"y":64,"w":64,"h":64 },
+				{"name":"cortoEnemigo","x":0,"y":128,"w":64,"h":64 },
+				{"name":"largoEnemigo","x":64,"y":128,"w":64,"h":64 },
+				{"name":"muroEnemigo","x":128,"y":128,"w":64,"h":64 },
+				{"name":"fusionEnemigo","x":192,"y":128,"w":64,"h":64 },
+				{"name":"invocadorEnemigo","x":256,"y":128,"w":64,"h":64 },
+				{"name":"Nivel1","x":128,"y":64,"w":64,"h":64 },
+				{"name":"Nivel2","x":192,"y":64,"w":64,"h":64 },
+				{"name":"Nivel3","x":256,"y":64,"w":64,"h":64 },
+				{"name":"VidaLlena","x":320,"y":64,"w":64,"h":64 },
+				{"name":"VidaVacia","x":320,"y":128,"w":64,"h":64 },
+				{"name":"fusionando","x":192,"y":192,"w":64,"h":64 },
+				{"name":"fusionandoEnemigo","x":192,"y":256,"w":64,"h":64 }
 			]
 		},
 		{"imgURL":"img/GUISheet.png", "sheetName":"GUI",
@@ -24,8 +42,19 @@
 				{"name":"Retry","x":355,"y":114,"w":71,"h":26 },
 				{"name":"Next","x":262,"y":145,"w":140,"h":26 },
 				{"name":"Great","x":450,"y":122,"w":73,"h":19 },
-				{"name":"Numeros","x":255,"y":0,"w":16,"h":32 }
+				{"name":"Numeros","x":255,"y":0,"w":16,"h":32 },
+				{"name":"instruccionesLabel","x":262,"y":181,"w":190,"h":25 },
+				{"name":"cerrarInstrLabel","x":415,"y":44,"w":34,"h":34 }
+			]
+		},
+		{"imgURL":"img/Help.png", "sheetName":"help",
+			"sprites":[
+				{"name":"instrucciones","x":0,"y":0,"w":440,"h":412 }
 			]
 		}
+	],
+"animaciones":[
+		{"name":"GuardiaQuieto","sprites":["Guardia","Monstruo","Pilar","Cristal","Escudo"]},
+		{"name":"GuardiaMovimiento","sprites":["Escudo","Pilar","Cristal","Monstruo","Guardia"]}
 	]
 }

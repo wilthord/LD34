@@ -9,6 +9,7 @@ OCULTAR = 'OCULTAR';
 ACT_DISPARA = 'dispara';
 
 CLICK = 'Click';
+CLICK_DERECHO = 'ClickDerecho';
 
 InputEngineClass = function(){
 
@@ -38,11 +39,13 @@ InputEngineClass.prototype.setup = function () {
 	//Tecla E para ocultarse
 	gInputEngine.bind(69, OCULTAR);
 	gInputEngine.bind(CLICK, CLICK);
+	gInputEngine.bind(CLICK_DERECHO, CLICK_DERECHO);
 
 	// Se agregan los listeners para los eventos de ingreso
 	document.getElementById(GE.nombreCanvas).addEventListener('mousemove', gInputEngine.onMouseMove);
 	document.getElementById(GE.nombreCanvas).addEventListener("mousedown", gInputEngine.onMouseDown);
 	document.getElementById(GE.nombreCanvas).addEventListener("mouseup", gInputEngine.onMouseUP);
+	document.getElementById(GE.nombreCanvas).addEventListener('contextmenu', function(ev) {return false;}, false);
 	document.addEventListener('keydown', gInputEngine.onKeyDown);
 	document.addEventListener('keyup', gInputEngine.onKeyUp);
 }
@@ -69,26 +72,38 @@ InputEngineClass.prototype.onKeyDown = function (event) {
 }
 
 //-----------------------------
-InputEngineClass.prototype.onMouseDown = function () {
+InputEngineClass.prototype.onMouseDown = function (event) {
 	// Se obtiene la accion relacionada a presionar el click
-	var action = gInputEngine.bindings[CLICK];
+	var action = null;
+	if(event.button==2){
+		action =gInputEngine.bindings[CLICK_DERECHO];
+	}else{
+		action =gInputEngine.bindings[CLICK];
+	}
 
 	//Si la acción está mapeada
 	if (action) {
 		// Se marca la acción como true, mientras esté en true se ejecutará la acción
 		gInputEngine.actions[action] = true;
 	}
+	return false;
 },
 
-InputEngineClass.prototype.onMouseUP = function () {
+InputEngineClass.prototype.onMouseUP = function (event) {
 	// Se obtiene la accion relacionada a liberar el click
-	var action = gInputEngine.bindings[CLICK];
-
+	var action = null;
+	if(event.button==2){
+		action =gInputEngine.bindings[CLICK_DERECHO];
+	}else{
+		action =gInputEngine.bindings[CLICK];
+	}
+	
 	//Si la acción está mapeada
 	if (action) {
 		// Se marca la acción como false.
 		gInputEngine.actions[action] = false;
 	}
+	return false;
 }
 
 //-----------------------------
